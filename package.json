@@ -1,0 +1,12 @@
+{
+  "name": "@entur/shamash-gen",
+  "version": "1.0.0",
+  "description": "Create a shamash URL from raw graphql response",
+  "main": "index.js",
+  "license": "EUPL-1.2",
+  "preferGlobal": true,
+  "bin": "./index.js",
+  "dependencies": {
+    "commander": "^2.16.0"
+  }
+}
