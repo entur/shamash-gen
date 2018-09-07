@@ -1,6 +1,6 @@
 {
   "name": "@entur/shamash-gen",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Create a shamash URL from raw graphql response or en-tur.no URL",
   "main": "index.js",
   "license": "EUPL-1.2",
