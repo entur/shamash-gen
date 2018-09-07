@@ -1,10 +1,10 @@
 exports.formatDate = function formatDate(milliseconds) {
   const d = new Date(milliseconds)
   const year = d.getFullYear()
-  const month = `${d.getMonth() + 1}`.padStart(2, 0)
-  const day = `${d.getDate()}`.padStart(2, 0)
-  const hour = `${d.getHours()}`.padStart(2, 0)
-  const min = `${d.getMinutes()}`.padStart(2, 0)
+  const month = exports.leftPad(`${d.getMonth() + 1}`, 2, 0)
+  const day = exports.leftPad(`${d.getDate()}`, 2, 0)
+  const hour = exports.leftPad(`${d.getHours()}`, 2, 0)
+  const min = exports.leftPad(`${d.getMinutes()}`, 2, 0)
 
   return `${year}-${month}-${day}T${hour}:${min}`
 }
@@ -28,4 +28,12 @@ exports.webEnvToOtpEnv = function webEnvToOtpEnv(webEnv) {
     default:
       return 'api'
   }
+}
+
+exports.leftPad = function leftPad(string, length, padChar) {
+  let str = '' + string
+  while (str.length < length) {
+    str = padChar + str
+  }
+  return str
 }
