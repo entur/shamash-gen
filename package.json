@@ -6,6 +6,9 @@
   "license": "EUPL-1.2",
   "preferGlobal": true,
   "bin": "./index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "commander": "^2.16.0"
   }
