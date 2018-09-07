@@ -44,7 +44,7 @@ function handleWebAppUrl(url) {
   const startId = utils.getParam(url, 'startId')
   const startLat = Number(utils.getParam(url, 'startLat'))
   const startLon = Number(utils.getParam(url, 'startLon'))
-  const startLabel = utils.getParam(url, 'startParam')
+  const startLabel = utils.getParam(url, 'startLabel')
   const startName = utils.getParam(url, 'startName')
 
   const stopId = utils.getParam(url, 'stopId')
