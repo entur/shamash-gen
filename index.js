@@ -30,8 +30,9 @@ function handleRawRequestJson(rawString) {
 }
 
 function handleWebAppUrl(url) {
-  if (!url.includes('en-tur.no')) {
-    throw new Error('Wrong URL. Expected en-tur.no, dev.en-tur.no or staging.en-tur.no')
+  const isLocalHost = url.includes('localhost') || url.includes('127.0.0.1')
+  if (!url.includes('en-tur.no') && !isLocalHost) {
+    throw new Error('Wrong URL. Expected en-tur.no, dev.en-tur.no, staging.en-tur.no or localhost.')
   }
 
   const transportModes = [...utils.getParam(url, 'transportModes').split(','), 'foot']
@@ -77,7 +78,7 @@ function handleWebAppUrl(url) {
     maxPreTransitWalkDistance: 2000,
   }
 
-  const webEnv = utils.safeRegexMatch(url, /https:\/\/(.+?)\.en-tur/)
+  const webEnv = isLocalHost ? 'dev' : utils.safeRegexMatch(url, /https:\/\/(.+?)\.en-tur/)
   const otpEnv = utils.webEnvToOtpEnv(webEnv)
   return generateShamashUrl(tripQuery, variables, otpEnv)
 }
