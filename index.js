@@ -9,7 +9,7 @@ const utils = require('./utils')
 program
   .version(pkg.version)
   .description(pkg.description)
-  .arguments('<source>')
+  .arguments('<source|url>')
   .option('-t, --test', 'Use test environment')
   .parse(process.argv);
 
