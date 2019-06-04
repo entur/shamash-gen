@@ -19,17 +19,6 @@ exports.getParam = function getParam(url, param, defaultValue) {
   return decodeURIComponent(exports.safeRegexMatch(url, new RegExp(`${param}\\\\?=(.+?)\\\\?(&|$)`), defaultValue))
 }
 
-exports.webEnvToOtpEnv = function webEnvToOtpEnv(webEnv) {
-  switch (webEnv) {
-    case 'dev':
-    return 'api-test'
-    case 'staging':
-    return 'api-stage'
-    default:
-      return 'api'
-  }
-}
-
 exports.leftPad = function leftPad(string, length, padChar) {
   let str = '' + string
   while (str.length < length) {

@@ -16,7 +16,8 @@ Create a shamash URL from raw graphql response
 Options:
 
   -V, --version  output the version number
-  -t, --test     Use test environment
+  -d, --dev      Use dev environment
+  -s, --staging  Use staging environment
   -h, --help     output usage information
 ```
 
@@ -29,5 +30,5 @@ shamash-gen '{"query":"\n    query StopPlaces($id:String!) {\n        stopPlace(
 Gir følgende svar:
 
 ```
-https://api.entur.org/doc/shamash-journeyplanner/?variables={"id":"NSR:StopPlace:6493"}&query=query StopPlaces($id:String!) {  stopPlace(id:$id) {  id  name  latitude  longitude  }  }
+https://api.entur.io/journey-planner/v2/ide/?variables={"id":"NSR:StopPlace:6493"}&query=query StopPlaces($id:String!) {  stopPlace(id:$id) {  id  name  latitude  longitude  }  }
 ```

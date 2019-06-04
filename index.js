@@ -10,13 +10,17 @@ program
   .version(pkg.version)
   .description(pkg.description)
   .arguments('<source|url>')
-  .option('-t, --test', 'Use test environment')
+  .option('-d, --dev', 'Use dev environment')
+  .option('-s, --staging', 'Use staging environment')
   .parse(process.argv);
 
-function generateShamashUrl(query, variables, env = 'api') {
+function generateShamashUrl(query, variables, env = 'prod') {
     const v = JSON.stringify(variables)
     const q = query.replace(/\n/g, ' ').replace(/\s+/g, ' ')
-    return `https://${env}.entur.org/doc/shamash-journeyplanner/?variables=${v}&query=${q}`
+    if (env === 'prod') {
+      return `https://api.entur.io/journey-planner/v2/ide/?variables=${v}&query=${q}`
+    }
+    return `https://api.${env}.entur.io/journey-planner/v2/ide/?variables=${v}&query=${q}`
 }
 
 function handleRawRequestJson(rawString) {
@@ -25,14 +29,16 @@ function handleRawRequestJson(rawString) {
     const query = parsed.query
     const variables = parsed.variables
 
-    const env = program.test ? 'api-test' : 'api'
+    let env = 'prod'
+    if (program.dev) env = 'dev'
+    if (program.staging) env = 'staging'
     return generateShamashUrl(query, variables, env)
 }
 
 function handleWebAppUrl(url) {
   const isLocalHost = url.includes('localhost') || url.includes('127.0.0.1')
   if (!url.includes('en-tur.no') && !isLocalHost) {
-    throw new Error('Wrong URL. Expected en-tur.no, dev.en-tur.no, staging.en-tur.no or localhost.')
+    throw new Error('Wrong URL. Expected *.en-tur.no or localhost.')
   }
 
   const transportModes = [...utils.getParam(url, 'transportModes').split(','), 'foot']
@@ -68,7 +74,7 @@ function handleWebAppUrl(url) {
       }
     },
     to: {
-      name: stopLabel || startLabel,
+      name: stopLabel || stopName,
       place: stopId,
       coordinates: {
         latitude: stopLat,
@@ -78,9 +84,8 @@ function handleWebAppUrl(url) {
     maxPreTransitWalkDistance: 2000,
   }
 
-  const webEnv = isLocalHost ? 'dev' : utils.safeRegexMatch(url, /https:\/\/(.+?)\.en-tur/)
-  const otpEnv = utils.webEnvToOtpEnv(webEnv)
-  return generateShamashUrl(tripQuery, variables, otpEnv)
+  const env = isLocalHost ? 'dev' : utils.safeRegexMatch(url, /https:\/\/(.+?)\.en-tur/)
+  return generateShamashUrl(tripQuery, variables, env)
 }
 
 function main() {
